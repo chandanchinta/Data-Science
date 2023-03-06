@@ -1,0 +1,29 @@
+
+
+# Import libraries
+import sys
+import pandas as pd
+from sklearn import linear_model
+import numpy as np
+
+dataset = pd.read_csv('trainingdata.txt', header=None)
+
+
+# According to the chart, we must remove items with a 
+# duration of time greater than eight.
+dataset = dataset[dataset.iloc[:,1] < 8]
+
+dataset.insert(0, len(dataset.columns), 0)
+
+X = dataset.iloc[:,0:2].values
+Y = dataset.iloc[:,2].values
+
+model = linear_model.LinearRegression()
+model.fit(X, Y)
+
+timeCharged = float(input().strip())
+result = model.predict([[0, timeCharged]])
+if result[0] > 8:
+    print (8.0)
+else:
+    print (round(result[0],2))
